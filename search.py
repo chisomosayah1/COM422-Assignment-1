@@ -87,6 +87,26 @@ def depthFirstSearch(problem):
     print("Start's successors:", problem.getSuccessors(problem.getStartState()))
     """
     "*** YOUR CODE HERE ***"
+    
+    # DFS is general graph search with a Stack as the data structure
+    #STACK works on the principle of Last-in First-out(LIFO)
+    stack=util.Stack()   #using the stack data structure already provided in util.py, Initialize an empty Stack
+    visited=[]     # a list of visisted states
+    startNode=(problem.getStartState(),[])       # initial/start state is current state, the path is empty here  
+    stack.push(startNode) # add our initial state into the stack
+    while not stack.isEmpty(): #
+        popped=stack.pop()  #remove the last item(top item) from the stack
+        location=popped[0] #
+        path=popped[1]                             #Every state keeps it's path from the starting state
+        if location not in visited:               #In each node we see if it is visited,if it's not then we are getting the successors and push
+            visited.append(location)              #its elements to the stack and we are building the path in depth-first logic
+            if problem.isGoalState(location):     # Check if current state is goal state
+                return path                     #return the path(from startnode) that leads to this location(if is it a goal state)
+            successors=problem.getSuccessors(location) # Get successors of current state
+            for succ in list(successors):   
+                if succ[0] not in visited:
+                    stack.push((succ[0],path+[succ[1]])) #Add new states in stack and find their new path (new action) 
+    return []
     util.raiseNotDefined()
 
 def breadthFirstSearch(problem):
